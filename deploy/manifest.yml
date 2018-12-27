@@ -1,0 +1,25 @@
+version: v1
+common:
+  os: centos7
+  tools:
+build:
+  tools:
+    maven: 3.2.1
+    openjdk: 8
+  run:
+    workDir: ./		# workDir是代码仓库的相对目录
+    cmd:
+      - sh deploy/compile.sh
+  target:
+    distDir: ./	# distDir是代码仓库的相对目录
+    files:				# files中的文件描述是相对distDir的
+      - ./target
+      - ./src
+      - ./deploy
+autodeploy:
+    targetDir: /opt/meituan/mall-iot-chuanyun-api/
+    env:
+    run: sh deploy/run.sh
+    check: sh deploy/check.sh
+    checkRetry: 1
+    checkInterval: 30s

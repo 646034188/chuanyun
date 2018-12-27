@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//base.mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 分布式应用必须禁用查询缓存 -->
+        <setting name="cacheEnabled" value="false"/>
+        <!-- 禁用懒加载-->
+        <setting name="lazyLoadingEnabled" value="false"/>
+        <!-- 默认执行超时时间(秒) -->
+        <setting name="defaultStatementTimeout" value="30"/>
+        <!-- 下划线命名转驼峰命名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 默认开启“获取插入自增主键的值”（仅insert语句） -->
+        <setting name="useGeneratedKeys" value="true"/>
+    </settings>
+
+    <plugins>
+        <plugin interceptor="com.dianping.zebra.dao.plugin.page.PageInterceptor">
+            <property name="dialectClass" value="com.dianping.zebra.dao.dialect.MySQLDialect"/>
+        </plugin>
+    </plugins>
+</configuration>

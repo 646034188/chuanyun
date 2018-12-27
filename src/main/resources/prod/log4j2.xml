@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- prod，生产环境日志配置 -->
+<configuration status="INFO">
+    <appenders>
+        <!-- 本地全量日志文件 -->
+        <XMDFile name="XMDFileAppender" fileName="app.log"/>
+        <!-- 本地错误日志文件 -->
+        <XMDFile name="XMDErrorFileAppender" fileName="error.log">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+        </XMDFile>
+        <!-- 日志中心上报 -->
+        <Scribe name="XMDLogCenterAppender">
+            <LcLayout/>
+        </Scribe>
+        <Async name="XMDLogCenterAsyncAppender" blocking="false">
+            <AppenderRef ref="XMDLogCenterAppender"/>
+        </Async>
+        <!-- CAT上报 -->
+        <CatAppender name="CatAppender"/>
+        <Async name="CatAsyncAppender" blocking="false">
+            <AppenderRef ref="CatAppender"/>
+        </Async>
+    </appenders>
+
+    <!-- AsyncLogger的Disruptor坑还很多，日志中心建议使用同步Logger -->
+    <loggers>
+        <root level="INFO">
+            <AppenderRef ref="XMDFileAppender"/> <!-- 本地全量日志 -->
+            <AppenderRef ref="XMDErrorFileAppender"/> <!-- 本地错误日志 -->
+            <AppenderRef ref="XMDLogCenterAsyncAppender"/> <!-- 日志中心上报 -->
+            <AppenderRef ref="CatAsyncAppender"/> <!-- CAT上报 -->
+        </root>
+    </loggers>
+</configuration>

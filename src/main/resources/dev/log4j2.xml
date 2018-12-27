@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- dev，开发本机运行jetty的日志配置 -->
+<configuration status="DEBUG">
+    <appenders>
+        <!-- 开发机会输出到IDEA控制台；dev机器会输出到jetty日志 -->
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="%d{yyyy/MM/dd HH:mm:ss.SSS} %t [%p] %c{1} (%F:%L) %msg%n"/>
+        </Console>
+        <!-- 本地全量日志文件 -->
+        <XMDFile name="XMDFileAppender" fileName="app.log"/>
+        <!-- 本地错误日志文件 -->
+        <XMDFile name="XMDErrorFileAppender" fileName="error.log">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+        </XMDFile>
+    </appenders>
+
+    <loggers>
+        <root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="XMDFileAppender"/> <!-- 本地全量日志 -->
+            <AppenderRef ref="XMDErrorFileAppender"/> <!-- 本地错误日志 -->
+        </root>
+
+    </loggers>
+</configuration>
